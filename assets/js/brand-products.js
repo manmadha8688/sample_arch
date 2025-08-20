@@ -42,25 +42,33 @@ closeBtn.addEventListener("click", () => {
 form.addEventListener("submit", function (e) {
   e.preventDefault();
 
-  const name = document.getElementById("name").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const phone = document.getElementById("phone").value.trim();
+ const name = document.getElementById("name").value.trim();
+const email = document.getElementById("email").value.trim();
+const phone = document.getElementById("phone").value.trim();
 
-  const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-  const phonePattern = /^[0-9]{10}$/;
+// Patterns
+const namePattern = /^[A-Za-z\s]+$/;           // Only letters and spaces
+const phonePattern = /^[6-9][0-9]{9}$/;        // 10 digits starting with 6-9
+const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/; // Basic email format
 
-  if (name.length < 3) {
-    alert("Please enter a valid full name.");
-    return;
-  }
-  if (!email.match(emailPattern)) {
-    alert("Please enter a valid email address.");
-    return;
-  }
-  if (!phone.match(phonePattern)) {
-    alert("Please enter a valid 10-digit phone number.");
-    return;
-  }
+// Validate name
+if (!name.match(namePattern) || name.length < 3) {
+  alert("Please enter a valid full name (letters only).");
+  return;
+}
+
+// Validate phone
+if (!phone.match(phonePattern)) {
+  alert("Please enter a valid 10-digit phone number");
+  return;
+}
+
+// Validate email only if entered
+if (email.length > 0 && !email.match(emailPattern)) {
+  alert("Please enter a valid email address.");
+  return;
+}
+
 
   // ✅ Send to FormSubmit
   fetch("https://formsubmit.co/archedge.pro@gmail.com", {
