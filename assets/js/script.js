@@ -15,7 +15,7 @@ let currentSlide = 0;
   // Auto Slide
   setInterval(() => {
     moveSlide(1);
-  }, 4000);
+  }, 6000);
 
 const testimonials = [
     {
@@ -393,109 +393,7 @@ const imgs = document.querySelectorAll('.circle-container img');
 
     images.forEach(img => imageObserver.observe(img));
 
-    // Enhanced Search functionality
-    const searchInput = document.querySelector('.search-input');
-    const searchBtn = document.querySelector('.search-btn');
-    
-    if (searchInput && searchBtn) {
-        // Search on input
-        searchInput.addEventListener('input', function() {
-            performSearch(this.value);
-        });
-        
-        // Search on button click
-        searchBtn.addEventListener('click', function() {
-            performSearch(searchInput.value);
-        });
-        
-        // Search on Enter key
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                performSearch(this.value);
-            }
-        });
-        
-        function performSearch(searchTerm) {
-            const term = searchTerm.toLowerCase().trim();
-            const productCards = document.querySelectorAll('.product-card, .range-item');
-            let visibleCount = 0;
-            
-            productCards.forEach(card => {
-                const title = card.querySelector('h3');
-                const description = card.querySelector('p');
-                const titleText = title ? title.textContent.toLowerCase() : '';
-                const descText = description ? description.textContent.toLowerCase() : '';
-                
-                if (term === '' || titleText.includes(term) || descText.includes(term)) {
-                    card.style.display = 'block';
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-            
-            // Show search results feedback
-            if (term !== '' && visibleCount === 0) {
-                showSearchMessage('No products found matching your search.');
-            } else if (term !== '' && visibleCount > 0) {
-                showSearchMessage(`Found ${visibleCount} product${visibleCount !== 1 ? 's' : ''} matching "${searchTerm}".`);
-            } else {
-                hideSearchMessage();
-            }
-        }
-        
-        function showSearchMessage(message) {
-            let messageEl = document.querySelector('.search-message');
-            if (!messageEl) {
-                messageEl = document.createElement('div');
-                messageEl.className = 'search-message';
-                messageEl.style.cssText = `
-                    position: fixed;
-                    top: 100px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    background: rgba(99, 102, 241, 0.9);
-                    color: white;
-                    padding: 10px 20px;
-                    border-radius: 20px;
-                    font-size: 14px;
-                    z-index: 1001;
-                    backdrop-filter: blur(10px);
-                    transition: all 0.3s ease;
-                `;
-                document.body.appendChild(messageEl);
-            }
-            messageEl.textContent = message;
-            messageEl.style.opacity = '1';
-            
-            // Auto hide after 3 seconds
-            setTimeout(() => {
-                if (messageEl) {
-                    messageEl.style.opacity = '0';
-                    setTimeout(() => {
-                        if (messageEl && messageEl.parentNode) {
-                            messageEl.parentNode.removeChild(messageEl);
-                        }
-                    }, 300);
-                }
-            }, 3000);
-        }
-        
-        function hideSearchMessage() {
-            const messageEl = document.querySelector('.search-message');
-            if (messageEl) {
-                messageEl.style.opacity = '0';
-                setTimeout(() => {
-                    if (messageEl && messageEl.parentNode) {
-                        messageEl.parentNode.removeChild(messageEl);
-                    }
-                }, 300);
-            }
-        }
-    }
+
 
     // Testimonial carousel (if needed)
     const testimonials = document.querySelectorAll('.testimonial');
