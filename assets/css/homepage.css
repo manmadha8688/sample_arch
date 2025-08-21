@@ -481,49 +481,30 @@ body{
   -webkit-text-fill-color: #fff;
 }
 
-.benefits-grid {
+
+.b-carousel-track {
   display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
-  margin-top: 50px;
-  justify-content: center;
-  position: relative;
-  z-index: 2;
+  gap: 30px; /* space between items */
+  scroll-behavior: smooth;
+transition: transform 0.6s ease-in-out;
 }
 
-.benefit-item {
-  flex: 1;
-  min-width: 250px;
-  max-width: 300px;
+.benefit-carousel-item {
+  flex: 0 0 calc(25% - 30px); /* 25% minus half of the gap (for 30px gap) */
+  box-sizing: border-box;
+  padding: 50px 30px;
+  text-align: center;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 20px;
-  padding: 40px 30px;
-  text-align: center;
   box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(10px);
   position: relative;
   overflow: hidden;
-  opacity: 0;
-  transform: translateY(60px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.benefit-item.animate {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 1s ease, transform 1s ease;
-}
-
-.benefit-item:nth-child(odd) {
-  transform: translateY(-60px);
-}
-
-.benefit-item:nth-child(odd).animate {
-  transform: translateY(0);
-}
-
-.benefit-item::before {
+.benefit-carousel-item::before {
   content: '';
   position: absolute;
   top: 0;
@@ -535,42 +516,100 @@ body{
   transition: transform 0.3s ease;
 }
 
-.benefit-item:hover::before {
+.benefit-carousel-item:hover::before {
   transform: scaleX(1);
 }
 
-.benefit-item:hover {
-  transform: translateY(-50px);
+.benefit-carousel-item:hover {
+  transform: translateY(-10px);
   box-shadow: 0 25px 50px rgba(0,0,0,0.15);
   background: rgba(255, 255, 255, 1);
 }
 
 .benefit-icon {
-  font-size: 3.5rem;
-  margin-bottom: 25px;
+  font-size: 3rem;
+  margin-bottom: 20px;
   color: #4765e7;
   transition: all 0.3s ease;
 }
 
-.benefit-item:hover .benefit-icon {
+.benefit-carousel-item:hover .benefit-icon {
   transform: scale(1.1) rotate(5deg);
   color: #6d3f9a;
 }
 
-.benefit-item h3 {
-  font-size: 1.4rem;
+.benefit-carousel-item h3 {
+  font-size: 1.2rem;
   font-weight: 700;
   color: #2d3748;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
-.benefit-item p {
+.benefit-carousel-item p {
+  font-size: 0.95rem;
   color: #637698;
-  line-height: 1.7;
-  font-weight: 800;  
-            /* Aligns text on both sides */
-  text-justify: inter-word;     /* Distributes spaces between words, not letters */
+  line-height: 1.6;
+  font-weight: 600;
+  text-justify: inter-word;
   hyphens: auto;
+}
+
+
+/* Tablets (768px - 1024px) */
+@media (max-width: 1024px) {
+  .b-carousel-track {
+    gap: 15px;
+  }
+  .benefit-carousel-item {
+    flex: 0 0 calc(33.33% - 15px); /* 2 items */
+  }
+}
+
+/* Mobile (up to 767px) */
+@media (max-width: 767px) {
+  .b-carousel-track {
+    gap: 10px;
+  }
+  .benefit-carousel-item {
+    flex: 0 0 calc(50% - 10px); /* 2 items */
+    padding: 30px 20px;
+  }
+
+  .benefit-icon {
+    font-size: 2.5rem;
+  }
+
+  .benefit-carousel-item h3 {
+    font-size: 1rem;
+  }
+
+  .benefit-carousel-item p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Small Mobile (up to 480px) */
+@media (max-width: 480px) {
+
+  .b-carousel-track {
+    gap: 0px;
+  }
+  .benefit-carousel-item {
+    flex: 0 0 100%; /* 1 item per row */
+    padding: 25px 15px;
+  }
+
+  .benefit-icon {
+    font-size: 2rem;
+  }
+
+  .benefit-carousel-item h3 {
+    font-size: 0.95rem;
+  }
+
+  .benefit-carousel-item p {
+    font-size: 0.85rem;
+  }
 }
 
 /* Enhanced Explore Products Section */

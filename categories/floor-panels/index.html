@@ -12,6 +12,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 </head>
+
+
+<style>
+    .product-category-content h5 {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #435779;
+  margin: 5px 0;
+}
+
+.product-category-content h5 span {
+  font-weight: 600;
+  color: black; 
+  text-transform: uppercase;
+}
+
+</style>
 <body>
     
 <!-- Header -->
@@ -53,7 +70,7 @@
     </a>
     <div class="brands-dropdown">
         <div class="brands-row">
-          <a href="../pare/" class="brand-item">
+          <a href="../../products/pare/" class="brand-item">
                 <div class="brand-image-container">
                     <img src="../../assets/images/brands/pare/product.webp" alt="Pare India decorative panels" class="brand-image">
                     <div class="brand-overlay">
@@ -63,7 +80,7 @@
                 <div class="brand-name">PARE</div>
             </a>
             
-            <a href="../vox/" class="brand-item">
+            <a href="../../products/vox/" class="brand-item">
                 <div class="brand-image-container">
                     <img src="../../assets/images/brands/vox/product.jpg" alt="Vox India wall panels" class="brand-image">
                     <div class="brand-overlay">
@@ -73,7 +90,7 @@
                 <div class="brand-name">VOX</div>
             </a>
             
-            <a href="../stanza/" class="brand-item">
+            <a href="../../products/stanza/" class="brand-item">
                 <div class="brand-image-container">
                     <img src="../../assets/images/brands/Stanza/Soffit Panels/image.webp" alt="Stanza Decor soffit panels" class="brand-image">
                     <div class="brand-overlay">
@@ -83,7 +100,7 @@
                 <div class="brand-name">Stanza - Soffit</div>
             </a>
             
-            <a href="../stardec/" class="brand-item">
+            <a href="../../products/stardec/" class="brand-item">
                 <div class="brand-image-container">
                     <img src="../../assets/images/brands/StarDECOR/product.jpeg" alt="Star Dec charcoal louvers" class="brand-image">
                     <div class="brand-overlay">
@@ -93,7 +110,7 @@
                 <div class="brand-name">Charcoal Louvers</div>
             </a>
             
-            <a href="../future decore/" class="brand-item">
+            <a href="../../products/future decore/" class="brand-item">
                 <div class="brand-image-container">
                     <img src="../../assets/images/brands/Future DECOR/rock.jpg" alt="Future Decore PU stones and leafs" class="brand-image">
                     <div class="brand-overlay">
@@ -115,7 +132,7 @@
                             </a>
                             <div class="categories-dropdown" >
                                 <div class="brands-row">
-                                    <a href="../../categories/ceiling-panels/" class="brand-item">
+                                    <a href="../ceiling-panels/" class="brand-item">
                                         <div class="brand-image-container">
                                             <img src="../../assets/images/categories/Ceiling-Panels.jpeg" alt="Ceiling Panels" class="brand-image">
                                             <div class="brand-overlay">
@@ -125,7 +142,7 @@
                                         <div class="brand-name">Ceiling Panels</div>
                                     </a>
                                     
-                                    <a href="../../categories/wall-panels/" class="brand-item">
+                                    <a href="../wall-panels/" class="brand-item">
                                         <div class="brand-image-container">
                                             <img src="../../assets/images//categories/wall-panels.jpg" alt="Wall Panels" class="brand-image">
                                             <div class="brand-overlay">
@@ -135,7 +152,7 @@
                                         <div class="brand-name">Wall Panels</div>
                                     </a>
                                     
-                                    <a href="../../categories/floor-panels/" class="brand-item">
+                                    <a href="../floor-panels/" class="brand-item">
                                         <div class="brand-image-container">
                                             <img src="../../assets/images/categories/Floor-Panels.jpeg" alt="Floor Panels" class="brand-image">
                                             <div class="brand-overlay">
@@ -172,10 +189,63 @@
             </nav>
         </div>
     </header> 
-<main style="display:flex;justify-content:center;align-items:center;height:100vh;background:#f5f5f5;font-family:Arial, sans-serif;">
-  <h1 style="font-size:48px;color:#333;text-align:center;">🚀 Coming Soon</h1>
-</main>
 
+
+    
+<main class="main-content" style="margin-top:10%">
+  
+
+<!-- Hidden form modal -->
+<div id="pdfFormModal" class="modal-overlay">
+  <div class="modal-box">
+    <span id="closeForm" class="close-btn">&times;</span>
+    <h2 class="form-title">Access the Catalog</h2>
+    <p class="form-subtitle">Please fill in your details to explore the collection</p>
+    
+    <form id="pdfForm" method="post">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" >
+      </div>
+      
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" maxlength="10" required>
+      </div>
+      
+      <button type="submit" class="s-btn">Open Catalog</button>
+    </form>
+  </div>
+</div>
+
+
+  <!-- Product Grid -->
+  <section class="products-grid" id="products">
+
+
+   <div class="product-category">
+  <div class="product-image">
+    <img src="../../assets/images/brands/vox/spc.webp" 
+         alt="Vox SPC Flooring - Waterproof Stone Polymer Composite Flooring" 
+         loading="lazy">
+  </div>
+  <div class="product-category-content">
+    <h2>Flooring - SPC</h2>
+    <h5>Brand : <span>VOX</span></h5>
+    <p>Durable SPC flooring offering waterproof and long-lasting style.</p>
+    <button class="btn pdfBtn" aria-label="Download Vox SPC Flooring catalog" data-pdf="../../assets/pdfs/ArchEdge-VOX SPC Flooring.pdf">Explore →</button>
+  </div>
+</div>
+
+  </section>
+
+
+</main>
 
 <!-- Footer -->
 <footer class="footer">

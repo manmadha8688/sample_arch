@@ -17,6 +17,27 @@ let currentSlide = 0;
     moveSlide(1);
   }, 6000);
 
+  let benefitSlideIndex = 0;
+const benefitItemsPerView = 4;
+const benefitTrack = document.getElementById('benefitCarouselTrack');
+const benefitTotalItems = document.querySelectorAll('.benefit-carousel-item').length;
+const benefitMaxIndex = Math.ceil(benefitTotalItems / benefitItemsPerView) - 1;
+
+function benefitMoveSlide(step) {
+  benefitSlideIndex += step;
+  if (benefitSlideIndex < 0) benefitSlideIndex = benefitMaxIndex;
+  if (benefitSlideIndex > benefitMaxIndex) benefitSlideIndex = 0;
+
+  const benefitSlideWidth = benefitTrack.offsetWidth / benefitItemsPerView;
+  benefitTrack.style.transform = `translateX(-${benefitSlideIndex * benefitSlideWidth * benefitItemsPerView}px)`;
+}
+
+// Auto Slide
+setInterval(() => {
+  benefitMoveSlide(1);
+}, 6000);
+
+
 const testimonials = [
     {
       name: " Kumar Swamy ",
