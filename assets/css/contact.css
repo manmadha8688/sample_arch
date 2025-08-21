@@ -164,7 +164,7 @@ body {
 
 .form-group input,
 .form-group textarea {
-    width: 100%;
+    width: 90%;
     padding: 15px;
     border: 2px solid #e2e8f0;
     border-radius: 10px;
@@ -312,7 +312,6 @@ body {
     transform: translateY(0);
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .hero-content h1 {
         font-size: 2.2rem;
@@ -334,4 +333,98 @@ body {
     .hero-section {
         height: 60vh;
     }
+} 
+
+
+/* ================= Custom Responsive CSS ================= */
+
+/* Small Devices (≤ 480px) */
+@media (max-width: 480px) {
+    
+
+
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 10px;
+    }
+
+    .contact-info, .contact-form {
+        padding: 20px;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 10px;
+    }
 }
+
+/* Medium Devices (>480px and ≤ 780px) */
+@media (min-width: 481px) and (max-width: 780px) {
+    
+
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        padding: 0 15px;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+        padding: 0 15px;
+    }
+}
+
+/* Large Devices (>780px and ≤ 1020px) */
+@media (min-width: 781px) and (max-width: 1020px) {
+    .hero-section {
+        height: 60vh;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-content p {
+        font-size: 1.2rem;
+    }
+
+    .contact-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        padding: 0 20px;
+    }
+
+    .features-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+}
+
+/* Extra Large Devices (>1020px) */
+@media (min-width: 1021px) {
+    .hero-section {
+        height: 70vh;
+    }
+
+    .hero-content h1 {
+        font-size: 3rem;
+    }
+
+    .hero-content p {
+        font-size: 1.3rem;
+    }
+
+    .contact-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .features-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+}
+
+
+
+

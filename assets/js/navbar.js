@@ -1,31 +1,16 @@
 document.addEventListener('DOMContentLoaded', function() {
-
-
-
-    const header = document.querySelector('.header'); 
+    const header = document.querySelector('.header');
     const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
     const navMenu = document.querySelector('.nav-menu');
+    const navItems = document.querySelectorAll('.nav-item');
     const navLinks = document.querySelectorAll('.nav-link');
 
-    // Mobile Menu Toggle
-    mobileMenuToggle.addEventListener('click', function(){
+    // Mobile Hamburger Menu Toggle
+    mobileMenuToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
         navMenu.classList.toggle('active');
         mobileMenuToggle.classList.toggle('active');
         document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
-    });
-
-    // Dropdown toggles for mobile
-    const navItems = document.querySelectorAll('.nav-item > .nav-link');
-    navItems.forEach(link => {
-        link.addEventListener('click', function(e){
-            if(window.innerWidth <= 768){
-                const dropdown = this.nextElementSibling;
-                if(dropdown){
-                    e.preventDefault();
-                    dropdown.classList.toggle('open');
-                }
-            }
-        });
     });
 
     // Close mobile menu when clicking outside
@@ -37,30 +22,73 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Smooth scroll for anchor links
+    // Mobile dropdown handling - Fix for immediate close issue
+    navItems.forEach(item => {
+        const link = item.querySelector('.nav-link');
+        const dropdown = item.querySelector('.brands-dropdown, .categories-dropdown');
+
+        if (dropdown) {
+            link.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Close other dropdowns
+                    document.querySelectorAll('.brands-dropdown.open, .categories-dropdown.open').forEach(openDropdown => {
+                        if (openDropdown !== dropdown) {
+                            openDropdown.classList.remove('open');
+                        }
+                    });
+                    
+                    // Toggle current dropdown
+                    dropdown.classList.toggle('open');
+                }
+            });
+        }
+    });
+
+    // Close dropdown when clicking on menu items without dropdown
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
-
-            // Close mobile menu for any link
-            if(navMenu.classList.contains('active')){
-                navMenu.classList.remove('active');
-                mobileMenuToggle.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-
-            // Smooth scroll only for internal anchors
-            if(href && href.startsWith('#')){
-                e.preventDefault();
-                const targetSection = document.querySelector(href);
-                if(targetSection){
-                    const headerHeight = header.offsetHeight;
-                    const targetPosition = targetSection.offsetTop - headerHeight;
-                    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+            const hasDropdown = this.nextElementSibling && 
+                (this.nextElementSibling.classList.contains('brands-dropdown') || 
+                 this.nextElementSibling.classList.contains('categories-dropdown'));
+            
+            if (!hasDropdown) {
+                // Close mobile menu if open
+                if (navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                    mobileMenuToggle.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+                
+                // Handle smooth scroll for internal links
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    const targetSection = document.querySelector(href);
+                    if (targetSection) {
+                        const headerHeight = document.querySelector('.header').offsetHeight;
+                        const targetPosition = targetSection.offsetTop - headerHeight;
+                        window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+                    }
                 }
             }
-            // Else normal navigation will happen for page links
         });
+    });
+
+    // Close mobile menu on window resize
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            navMenu.classList.remove('active');
+            mobileMenuToggle.classList.remove('active');
+            document.body.style.overflow = '';
+            
+            // Close all dropdowns on desktop
+            document.querySelectorAll('.brands-dropdown.open, .categories-dropdown.open').forEach(dropdown => {
+                dropdown.classList.remove('open');
+            });
+        }
     });
 
     // Header scroll effect
@@ -70,17 +98,5 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             header.classList.remove('scrolled');
         }
-        header.style.transform = 'translateY(0)';
-        header.style.transition = 'transform 0.3s ease';
     });
-
-    // Close mobile menu on window resize
-    window.addEventListener('resize', function() {
-        if (window.innerWidth > 768 && navMenu.classList.contains('active')) {
-            navMenu.classList.remove('active');
-            mobileMenuToggle.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-    });
-
 });
