@@ -124,14 +124,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Header and hero section animation interval
   const header = document.getElementById('heroHeader');
-  const heroSection = document.getElementById('heroSection');
   setInterval(() => {
     if (window.scrollY <= 150) {
       header.style.transform = 'translateY(-30px)';
-      heroSection.style.transform = 'translateY(-30px)';
       setTimeout(() => {
         header.style.transform = 'translateY(0)';
-        heroSection.style.transform = 'translateY(0)';
       }, 500);
     }
   }, 3500);
@@ -261,10 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
 
-      const heroSection = document.querySelector('.hero-section');
-      if (heroSection) {
-        heroSection.addEventListener('mousemove', (e) => this.handleMouseMove(e));
-      }
+      
     }
 
     updateParallax() {
@@ -283,24 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    handleMouseMove(e) {
-      const heroSection = document.querySelector('.hero-section');
-      if (!heroSection) return;
-
-      const rect = heroSection.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-
-      const mouseX = e.clientX - centerX;
-      const mouseY = e.clientY - centerY;
-
-      document.querySelectorAll('.parallax-text').forEach((text, index) => {
-        const speed = 0.05 + (index * 0.02);
-        const xPos = mouseX * speed;
-        const yPos = mouseY * speed;
-        text.style.transform = `translate(${xPos}px, ${yPos}px)`;
-      });
-    }
+   
 
     animate() {
       this.updateParallax();
