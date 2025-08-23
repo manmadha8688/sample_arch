@@ -71,20 +71,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ✅ Send to FormSubmit
-    fetch("https://formsubmit.co/archedge.pro@gmail.com", {
+    fetch("https://script.google.com/macros/s/AKfycbw-hjVun0R3kZ0OldVoDbQJK8MEql9tTOwgOhx_DHCfOUDiIECv_P91JNoFiBi6s-C1NQ/exec", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ name, email, phone })
+      body: JSON.stringify({
+        name,
+        email,
+        phone,
+        sheetName: "Products-seen-clients"   // 👈 specify which sheet
+      })
     })
-      .then(res => {
-
-
-        // ✅ Save submission timestamp
+      .then(res => res.text())
+      .then(response => {
         localStorage.setItem("pdfFormSubmitTime", new Date().getTime());
 
-        // ✅ Open PDF after sending
         if (currentPdf) {
           window.open(currentPdf, "_blank");
         }
@@ -93,9 +92,13 @@ document.addEventListener('DOMContentLoaded', () => {
         form.reset();
       })
       .catch(err => {
-        console.error("❌ Error:", err);
+        console.error("Error:", err);
         alert("Something went wrong. Please try again.");
       });
+
+
+
+
   });
 
 

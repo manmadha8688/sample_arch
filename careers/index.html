@@ -420,7 +420,7 @@
         <div class="form-card">
             <h2>Collaborate with Us</h2>
 
-            <form id="contactForm" action="https://formsubmit.co/archedgepro@gmail.com" method="POST" novalidate>
+            <form id="contactForm" method="POST">
                 <div class="form-group">
                     <label for="company">Company Name *</label>
                     <input type="text" id="company" name="company" placeholder="Enter your company name" required>
@@ -442,15 +442,6 @@
                     <textarea id="msg" name="msg" rows="4" placeholder="Write your collaboration proposal or query"
                         required></textarea>
                 </div>
-
-                <input type="hidden" name="_next" value="https://archedge.pro/careers/thanks.html">
-                <!-- Redirect to thank-you page -->
-                <input type="hidden" name="_subject" value="collaboration proposal from Career page ">
-                <!-- Custom email subject -->
-                <input type="hidden" name="_autoresponse" value="Thank you! We will respond soon.">
-                <!-- Auto reply to user -->
-                <input type="hidden" name="form_type" value="collaboration_form">
-                <!-- Custom hidden info you want to send -->
 
 
                 <button type="submit">Send Collaboration Request</button>
@@ -654,9 +645,27 @@
                 showError(form.msg, "Please enter your message.");
                 return;
             }
+            fetch("https://script.google.com/macros/s/AKfycbzwR4dc1ebzEJxLJK1fjOuqCs5WIslmYpfuXsYTmR2Y9rmaZw-tUp82ZqvID9NGlpwCIg/exec", {
+                method: "POST",
+                body: JSON.stringify({
+                    company,
+                    email,
+                    phone:contact,
+                    message: msg,
+                    sheetName: "Collaborations"  // ✅ must exactly match your Google Sheet tab name
+                })
+            })
+                .then(res => res.text())
+                .then(response => {
+                    console.log("Server Response:", response);
+                    window.location.href = "thankyou.html"; // redirect on success
+                })
+                .catch(err => {
+                    console.error("Error:", err);
+                    alert("Something went wrong. Please try again.");
+                });
 
-            // All valid, submit the form
-            form.submit();
+
         });
 
     </script>

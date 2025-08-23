@@ -103,6 +103,97 @@ showTestimonial(current);
 
 document.addEventListener('DOMContentLoaded', function () {
 
+
+  const modal = document.getElementById("pdfFormModal");
+  const closeBtn = document.getElementById("closeForm");
+  const form = document.getElementById("pdfForm");
+  let currentPdf = null;
+
+  // Check if user already submitted today
+  function hasSubmittedToday() {
+    const lastSubmit = localStorage.getItem("pdfFormSubmitTime");
+    if (!lastSubmit) return false;
+
+    const now = new Date().getTime();
+    const oneDay = 24 * 60 * 60 * 1000; // 24 hours in ms
+
+    return now - parseInt(lastSubmit, 10) < oneDay;
+  }
+
+  // Attach click to carousel items
+  document.querySelectorAll(".carousel-item").forEach(item => {
+    item.addEventListener("click", () => {
+      // Set the PDF for this item
+      // You can use data-pdf attribute or hardcode for now
+      currentPdf = item.getAttribute("data-pdf");
+
+      if (hasSubmittedToday()) {
+        window.open(currentPdf, "_blank");
+      } else {
+        modal.style.display = "flex";
+      }
+    });
+  });
+
+  // Close modal
+  closeBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  // Form submission
+  form.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+
+  const namePattern = /^[A-Za-z\s]+$/;
+  const phonePattern = /^[6-9][0-9]{9}$/;
+  const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+  if (!name.match(namePattern) || name.length < 3) {
+    alert("Please enter a valid full name (letters only).");
+    return;
+  }
+
+  if (!phone.match(phonePattern)) {
+    alert("Please enter a valid 10-digit phone number");
+    return;
+  }
+
+  if (email.length > 0 && !email.match(emailPattern)) {
+    alert("Please enter a valid email address.");
+    return;
+  }
+
+  // ✅ Send to Google Sheets
+  fetch("https://script.google.com/macros/s/AKfycbzwR4dc1ebzEJxLJK1fjOuqCs5WIslmYpfuXsYTmR2Y9rmaZw-tUp82ZqvID9NGlpwCIg/exec", {
+    method: "POST",
+    body: JSON.stringify({
+      name,
+      email,
+      phone,
+      sheetName: "Product-seen-clients"   // 👈 must match tab name
+    })
+  })
+    .then(res => res.text())
+    .then(response => {
+      localStorage.setItem("pdfFormSubmitTime", new Date().getTime());
+
+      if (currentPdf) {
+        window.open(currentPdf, "_blank");
+      }
+
+      modal.style.display = "none";
+      form.reset();
+    })
+    .catch(err => {
+      console.error("Error:", err);
+      alert("Something went wrong. Please try again.");
+    });
+});
+
   // Hero Section Management
   const heroSlides = document.querySelectorAll('.hero-slide');
   const heroTexts = document.querySelectorAll('.hero-text');
@@ -371,48 +462,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // Form validation (if contact form is added)
-  const forms = document.querySelectorAll('form');
-  forms.forEach(form => {
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      const inputs = form.querySelectorAll('input[required], textarea[required]');
-      let isValid = true;
-
-      inputs.forEach(input => {
-        if (!input.value.trim()) {
-          isValid = false;
-          input.style.borderColor = '#e74c3c';
-        } else {
-          input.style.borderColor = '#ddd';
-        }
-      });
-
-      if (isValid) {
-        // Show success message
-        alert('Thank you for your message! We will get back to you soon.');
-        form.reset();
-      } else {
-        alert('Please fill in all required fields.');
-      }
-    });
-  });
-
-  // Image lazy loading
-  const images = document.querySelectorAll('img[data-src]');
-  const imageObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const img = entry.target;
-        img.src = img.dataset.src;
-        img.classList.remove('lazy');
-        imageObserver.unobserve(img);
-      }
-    });
-  });
-
-  images.forEach(img => imageObserver.observe(img));
 
 
 

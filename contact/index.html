@@ -388,7 +388,7 @@
             <!-- Contact Form -->
             <div class="contact-form fade-in">
                 <h3>Send Us A Message</h3>
-<form id="contactForm" action="https://formsubmit.co/archedgepro@gmail.com" method="POST" novalidate>
+<form id="contactForm"  method="POST">
     <div class="form-group">
         <label for="name">Full Name *</label>
         <input type="text" id="name" name="name" required>
@@ -419,86 +419,9 @@
         <small class="error" style="color:red; display:none;"></small>
     </div>
 
-
-    <input type="hidden" name="_next" value="https://archedge.pro/contact/thank-you.html"> <!-- Redirect to thank-you page -->
-    <input type="hidden" name="_subject" value="New Inquiry from Contact Page "> <!-- Custom email subject -->
-    <input type="hidden" name="_autoresponse" value="Thank you! We will respond soon."> <!-- Auto reply to user -->
-    <input type="hidden" name="form_type" value="contact_form"> <!-- Custom hidden info you want to send -->
-    
+ 
     <button type="submit" class="submit-btn">Send Message</button>
 </form>
-
-<script>
-document.getElementById("contactForm").addEventListener("submit", function(e) {
-    e.preventDefault(); // stop form submission
-    let isValid = true;
-    let firstInvalid = null;
-
-    function setError(input, message) {
-        const errorElement = input.parentElement.querySelector(".error");
-        errorElement.textContent = message;
-        errorElement.style.display = "block";
-        input.style.border = "1px solid red";
-        if (!firstInvalid) firstInvalid = input;
-        isValid = false;
-    }
-
-    function clearError(input) {
-        const errorElement = input.parentElement.querySelector(".error");
-        errorElement.textContent = "";
-        errorElement.style.display = "none";
-        input.style.border = "1px solid #ccc";
-    }
-
-    const name = document.getElementById("name");
-    if (!/^[A-Za-z\s]+$/.test(name.value.trim())) {
-        setError(name, "Name should contain only letters.");
-    } else {
-        clearError(name);
-    }
-
-    const email = document.getElementById("email");
-    if (email.value.trim().length > 0 && !/^\S+@\S+\.\S+$/.test(email.value.trim())) {
-        setError(email, "Please enter a valid email address.");
-    } else {
-        clearError(email);
-    }
-
-    const phone = document.getElementById("phone");
-const phoneValue = phone.value.trim();
-
-// Check 10 digits and valid prefix
-if (!/^[6-9]\d{9}$/.test(phoneValue)) {
-    setError(phone, "Enter a valid Phone Number");
-} else {
-    clearError(phone);
-}
-
-
-    const pincode = document.getElementById("pincode");
-    if (!/^\d{6}$/.test(pincode.value.trim())) {
-        setError(pincode, "Pin code must be 6 digits.");
-    } else {
-        clearError(pincode);
-    }
-
-    const message = document.getElementById("message");
-    if (message.value.trim().length < 1) {
-        setError(message, "Message cannot be empty.");
-    } else {
-        clearError(message);
-    }
-
-    if (!isValid) {
-        firstInvalid.focus();
-        return false;
-    }
-
-    this.submit(); // allow form submission
-});
-</script>
-
-
 
             </div>
         </section>
@@ -609,7 +532,95 @@ if (!/^[6-9]\d{9}$/.test(phoneValue)) {
         document.querySelectorAll('.fade-in').forEach(el => {
             observer.observe(el);
         });
+
+document.getElementById("contactForm").addEventListener("submit", function(e) {
+    e.preventDefault(); // stop form submission
+    let isValid = true;
+    let firstInvalid = null;
+
+    function setError(input, message) {
+        const errorElement = input.parentElement.querySelector(".error");
+        errorElement.textContent = message;
+        errorElement.style.display = "block";
+        input.style.border = "1px solid red";
+        if (!firstInvalid) firstInvalid = input;
+        isValid = false;
+    }
+
+    function clearError(input) {
+        const errorElement = input.parentElement.querySelector(".error");
+        errorElement.textContent = "";
+        errorElement.style.display = "none";
+        input.style.border = "1px solid #ccc";
+    }
+
+    const name = document.getElementById("name");
+    if (!/^[A-Za-z\s]+$/.test(name.value.trim())) {
+        setError(name, "Name should contain only letters.");
+    } else {
+        clearError(name);
+    }
+
+    const email = document.getElementById("email");
+    if (email.value.trim().length > 0 && !/^\S+@\S+\.\S+$/.test(email.value.trim())) {
+        setError(email, "Please enter a valid email address.");
+    } else {
+        clearError(email);
+    }
+
+    const phone = document.getElementById("phone");
+    const phoneValue = phone.value.trim();
+    if (!/^[6-9]\d{9}$/.test(phoneValue)) {
+        setError(phone, "Enter a valid Phone Number");
+    } else {
+        clearError(phone);
+    }
+
+    const pincode = document.getElementById("pincode");
+    if (!/^\d{6}$/.test(pincode.value.trim())) {
+        setError(pincode, "Pin code must be 6 digits.");
+    } else {
+        clearError(pincode);
+    }
+
+    const message = document.getElementById("message");
+    if (message.value.trim().length < 1) {
+        setError(message, "Message cannot be empty.");
+    } else {
+        clearError(message);
+    }
+
+    // 🚨 If invalid, stop here
+    if (!isValid) {
+        firstInvalid.focus();
+        return false;
+    }
+
+    // ✅ If valid, send to Google Apps Script
+    fetch("https://script.google.com/macros/s/AKfycbw-hjVun0R3kZ0OldVoDbQJK8MEql9tTOwgOhx_DHCfOUDiIECv_P91JNoFiBi6s-C1NQ/exec", {
+        method: "POST",
+        body: JSON.stringify({
+            name: name.value.trim(),
+            email: email.value.trim(),
+            phone: phoneValue,
+            pincode: pincode.value.trim(),
+            message: message.value.trim(),
+            sheetName:"Contacted-clients" // 👈 your sheet name
+        })
+    })
+    .then(res => res.text())
+    .then(response => {
+        // Redirect to Thank You page after successful submission
+        window.location.href = "thankyou.html";  
+    })
+    .catch(err => {
+        console.error("Error:", err);
+        alert("Something went wrong. Please try again.");
+    });
+
+});
+</script>
+
     
-    </script>
 </body>
 </html>
