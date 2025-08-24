@@ -168,16 +168,16 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // ✅ Send to Google Sheets
-  fetch("https://script.google.com/macros/s/AKfycbzwR4dc1ebzEJxLJK1fjOuqCs5WIslmYpfuXsYTmR2Y9rmaZw-tUp82ZqvID9NGlpwCIg/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbyXwMIdFGOtPPA4Z30cNKdCPQa94z23dA3bPipWyG0SstnmAKpXCZnmOkXiVgcl8LTX/exec", {
     method: "POST",
     body: JSON.stringify({
       name,
       email,
       phone,
-      sheetName: "Product-seen-clients"   // 👈 must match tab name
+      sheetName: "product-seen-clients" // 👈 must match tab name
     })
   })
-    .then(res => res.text())
+    
     .then(response => {
       localStorage.setItem("pdfFormSubmitTime", new Date().getTime());
 

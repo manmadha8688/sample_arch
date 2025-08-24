@@ -71,13 +71,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ✅ Send to FormSubmit
-    fetch("https://script.google.com/macros/s/AKfycbw-hjVun0R3kZ0OldVoDbQJK8MEql9tTOwgOhx_DHCfOUDiIECv_P91JNoFiBi6s-C1NQ/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbyXwMIdFGOtPPA4Z30cNKdCPQa94z23dA3bPipWyG0SstnmAKpXCZnmOkXiVgcl8LTX/exec", {
       method: "POST",
       body: JSON.stringify({
         name,
         email,
         phone,
-        sheetName: "Products-seen-clients"   // 👈 specify which sheet
+        sheetName: "product-seen-clients"   // 👈 specify which sheet
       })
     })
       .then(res => res.text())
